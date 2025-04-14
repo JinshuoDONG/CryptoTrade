@@ -1,0 +1,6 @@
+{
+    "extends": "./jsconfig.json",
+    "include": ["scripts/**/*", "lib/**/*"],
+    "exclude": ["node_modules"]
+  }
+  

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      // ...
+      "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "./src/*"
+        ]
+      }
+      // ...
+    },
+    "extends": "./jsconfig.json",
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+  }
+  
