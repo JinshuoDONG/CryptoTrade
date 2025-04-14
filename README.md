@@ -10,8 +10,6 @@
 - Connected backend to MySQL database and tested basic CRUD operations
 - Integrated frontend with backend APIs using Axios
 - Built the core layout of the main page (dashboard)
-- Set up GitHub Pages to deploy frontend
-- Prepared backend directory structure and pushed code to GitHub repository
 
 ---
 
