@@ -1,12 +1,39 @@
-# React + Vite
+#  CryptoTrackr
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**CryptoTrackr** is a comprehensive cryptocurrency trading and portfolio management web application. It combines a powerful frontend and backend architecture with real-time market data APIs and secure payment integrations to deliver a seamless and feature-rich experience for crypto investors.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  What We Have Done
 
-## Expanding the ESLint configuration
+- Initialized frontend (React + Tailwind CSS + Redux) and backend (Spring Boot + MySQL)
+- Connected backend to MySQL database and tested basic CRUD operations
+- Integrated frontend with backend APIs using Axios
+- Built the core layout of the main page (dashboard)
+- Set up GitHub Pages to deploy frontend
+- Prepared backend directory structure and pushed code to GitHub repository
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+##  What We Still Plan to Do
+
+- **Authentication and Security**  
+  - Implement login, register, password recovery, and optional 2FA  
+  - Spring Security integration with role-based access
+
+- **AI Chatbot Integration**  
+  - Use Gemini and CoinGecko APIs to answer crypto-related queries  
+  - Provide live price insights and basic trading suggestions
+
+- **Buy/Sell Crypto**  
+  - Build trading form with live market data  
+  - Support multiple coin pairs  
+  - Integrate Razorpay/Stripe for payment
+
+- **Wallet System**  
+  - Add balance via payment gateways  
+  - Wallet-to-wallet transfers  
+  - Simulated bank withdrawals
+
+
+
