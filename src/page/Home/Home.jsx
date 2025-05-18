@@ -1,93 +1,159 @@
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { Cross1Icon } from "@radix-ui/react-icons"
-import { Dot, MessageCircle } from "lucide-react"
-import React from 'react'
+import { Dot, MessageCircle, Search } from "lucide-react"
+import React, { useEffect, useState } from 'react'
 import AssetTable from './AssetTable'
 import StockChart from './StockChart'
+import { getCoinDetails } from "@/lib/api"
+import { useNavigate } from "react-router-dom"
 
+// Simple SearchBar component
+const SearchBar = () => {
+  const navigate = useNavigate();
+  
+  const handleClick = () => {
+    navigate('/search');
+  };
+  
+  return (
+    <div className="w-full">
+      <div 
+        className="flex items-center gap-2 p-2 border rounded-md cursor-pointer hover:bg-gray-100"
+        onClick={handleClick}
+      >
+        <Search className="h-4 w-4 text-gray-500" />
+        <span className="text-gray-500">Search coins...</span>
+      </div>
+    </div>
+  );
+};
 
-const Home =()=>{
-    const [category, setCategory]= React.useState("all");
-    const [inputValue,setInputValue]= React.useState("");
-    const [isBotRelease,setIsBotRelease]=React.useState(false)
+const Home = () => {
+    const [category, setCategory] = React.useState("all");
+    const [inputValue, setInputValue] = React.useState("");
+    const [isBotRelease, setIsBotRelease] = React.useState(false);
+    const [selectedCoin, setSelectedCoin] = useState({
+      id: "bitcoin",
+      symbol: "btc",
+      name: "Bitcoin",
+      image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+      current_price: 69242,
+      price_change_percentage_24h: 0.71,
+      price_change_24h: -1319049822.578
+    });
 
-    const handleBotRelease=()=>setIsBotRelease(!isBotRelease);
+    useEffect(() => {
+      // 监听用户点击的币种
+      const handleCoinSelected = (event) => {
+        if (event.detail && event.detail.coin) {
+          setSelectedCoin(event.detail.coin);
+        }
+      };
+      
+      window.addEventListener("coinSelected", handleCoinSelected);
+      
+      return () => {
+        window.removeEventListener("coinSelected", handleCoinSelected);
+      };
+    }, []);
 
-    const handleCategory =(value) =>{
+    const handleBotRelease = () => setIsBotRelease(!isBotRelease);
+
+    const handleCategory = (value) => {
         setCategory(value)
+        // Dispatch an event to notify the AssetTable component
+        const event = new CustomEvent('categoryChange', { 
+          detail: { category: value } 
+        });
+        window.dispatchEvent(event);
     };
 
-    const handleChange=(e)=>{
+    const handleChange = (e) => {
       setInputValue(e.target.value);
     }
-    const handleKeyPress=(event)=>{
-      if(event.key=="Enter"){
+    
+    const handleKeyPress = (event) => {
+      if(event.key === "Enter"){
         console.log(inputValue)
       }
       setInputValue("")
     }
+
+    // 价格格式化
+    const formatPrice = (price) => {
+      if (!price) return "$0";
+      
+      return price.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    };
+
     return (
       <div className="relative">
         <div className="lg:flex">
           <div className="lg:w-[50%] lg:border-r">
             
-            <div className="p-3 flex items-center gap-4">
-              <Button onClick={()=>handleCategory("all")}
-              variant={category=="all"?"default":"outline"} 
-              className="rounded-full">
-                All
-              </Button>
-              <Button onClick={()=>handleCategory("top50")}
-              variant={category=="top50"?"default":"outline"} 
-              className="rounded-full">
-                Top 50
-              </Button>
-              <Button onClick={()=>handleCategory("topGainers")}
-              variant={category=="topGainers"?"default":"outline"} 
-              className="rounded-full">
-                Top Gainers
-              </Button>
-              <Button onClick={()=>handleCategory("topLosers")}
-              variant={category=="topLosers"?"default":"outline"} 
-              className="rounded-full">
-                Top Losers
-              </Button>
+            <div className="p-3 flex flex-col gap-3">
+              <div className="w-full max-w-md">
+                <SearchBar />
+              </div>
+              
+              <div className="flex items-center gap-4 flex-wrap">
+                <Button onClick={() => handleCategory("all")}
+                variant={category === "all" ? "default" : "outline"} 
+                className="rounded-full">
+                  All
+                </Button>
+                <Button onClick={() => handleCategory("top50")}
+                variant={category === "top50" ? "default" : "outline"} 
+                className="rounded-full">
+                  Top 50
+                </Button>
+                <Button onClick={() => handleCategory("topGainers")}
+                variant={category === "topGainers" ? "default" : "outline"} 
+                className="rounded-full">
+                  Top Gainers
+                </Button>
+                <Button onClick={() => handleCategory("topLosers")}
+                variant={category === "topLosers" ? "default" : "outline"} 
+                className="rounded-full">
+                  Top Losers
+                </Button>
+              </div>
             </div>
             <AssetTable/>
-          
-          
-          
-
-          
           </div>          
           <div className="hidden lg:block lg:w-[50%] p-5">
-            <StockChart/>
-            <div className="flex gap-5 items-center">
+            <StockChart coinId={selectedCoin.id}/>
+            <div className="flex gap-5 items-center mt-4">
               <div>
-                <Avatar>
+                <Avatar className="w-12 h-12">
                   <AvatarImage
-                    src={
-                      "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628"
-                    }
+                    src={selectedCoin.image}
+                    alt={selectedCoin.name}
                   />
                 </Avatar>
               </div>
               <div>            
-              <div className='flex item-center gap-2'>
-                  <p>ETH</p>
+                <div className='flex items-center gap-2'>
+                  <p className="font-bold text-lg">{selectedCoin.symbol.toUpperCase()}</p>
                   <Dot className="text-gray-400"/>
-                  <p className='text-gray-400'>Ethereum</p>
-                      </div>
-                      <div className='flex items-end gap-2'>
-                        <p className="text-xl font-bold">
-                          5464
-                        </p>
-                        <p className='text-red-600'>
-                          <span>-1319049822.578</span>
-                          <span>(-0.29803%)</span>
-                        </p>
-                      </div></div>
+                  <p className='text-gray-400'>{selectedCoin.name}</p>
+                </div>
+                <div className='flex items-end gap-2'>
+                  <p className="text-xl font-bold">
+                    {formatPrice(selectedCoin.current_price)}
+                  </p>
+                  <p className={selectedCoin.price_change_percentage_24h < 0 ? 'text-red-600' : 'text-green-600'}>
+                    <span>{selectedCoin.price_change_24h ? selectedCoin.price_change_24h.toFixed(2) : "0.00"}</span>
+                    <span> ({selectedCoin.price_change_percentage_24h ? selectedCoin.price_change_percentage_24h.toFixed(2) : "0.00"}%)</span>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

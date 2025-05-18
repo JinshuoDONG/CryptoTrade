@@ -37,7 +37,7 @@ const Wallet = () => {
             <div className="flex items-center">
               <DollarSign/>
               <span className="text-2xl font-semibold">
-                20000
+                0
               </span>
             </div>
             <div className="flex gap-7 mt-5">

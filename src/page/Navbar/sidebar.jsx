@@ -20,21 +20,21 @@ import { useNavigate } from 'react-router-dom';
       path: "/",
       icon: <Home className="h-6 w-6" />
     },
-    {
-      name: "Portfolio",
-      path: "/portfolio",
-      icon: <LayoutDashboard className="h-6 w-6" />
-    },
+    // {
+    //   name: "Portfolio",
+    //   path: "/portfolio",
+    //   icon: <LayoutDashboard className="h-6 w-6" />
+    // },
     {
       name: "Watchlist",
       path: "/watchlist",
       icon: <Bookmark className="h-6 w-6" />
     },
-    {
-      name: "Activity",
-      path: "/activity",
-      icon: <ActivitySquare className="h-6 w-6" />
-    },
+    // {
+    //   name: "Activity",
+    //   path: "/activity",
+    //   icon: <ActivitySquare className="h-6 w-6" />
+    // },
     {
       name: "Wallet",
       path: "/wallet",
@@ -45,11 +45,11 @@ import { useNavigate } from 'react-router-dom';
       path: "/payment-details",
       icon: <Landmark className="h-6 w-6" />
     },
-    {
-      name: "Withdrawal",
-      path: "/withdrawal",
-      icon: <CreditCard className="h-6 w-6" />
-    },
+    // {
+    //   name: "Withdrawal",
+    //   path: "/withdrawal",
+    //   icon: <CreditCard className="h-6 w-6" />
+    // },
     {
       name: "Profile",
       path: "/profile",
