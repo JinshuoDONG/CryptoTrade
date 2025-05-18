@@ -1,17 +1,17 @@
-import React from 'react'
-import { Button } from "@/components/ui/button"
-import { SheetClose } from '@/components/ui/sheet'
+import { Button } from "@/components/ui/button";
+import { SheetClose } from '@/components/ui/sheet';
 import {
-    Home,
-    LayoutDashboard,
-    Bookmark,
-    ActivitySquare,
-    Wallet,
-    Landmark,
-    CreditCard,
-    User,
-    LogOut
-  } from "lucide-react";
+  ActivitySquare,
+  Bookmark,
+  CreditCard,
+  Home,
+  Landmark,
+  LayoutDashboard,
+  LogOut,
+  User,
+  Wallet
+} from "lucide-react";
+import { useNavigate } from 'react-router-dom';
   
 
   const menu = [
@@ -57,13 +57,16 @@ import {
     },
     {
       name: "Logout",
-      path: "/",
+      path: "/Auth",
       icon: <LogOut className="h-6 w-6" />
     }
   ];
   
 
   const Sidebar = () => {
+    const navigate = useNavigate();
+
+
     return (
       <div className="mt-10 space-y-5">
         {menu.map((item) => (
@@ -72,6 +75,7 @@ import {
               <Button
                 variant="outline"
                 className="flex items-center gap-5 py-6 w-full justify-start"
+                onClick={() => navigate(item.path)}
               >
                 <span className="w-8">{item.icon}</span>
                 <p>{item.name}</p>

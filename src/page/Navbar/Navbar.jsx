@@ -1,18 +1,16 @@
-import React from 'react'
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
     SheetHeader,
     SheetTitle,
-    SheetTrigger,
-  } from "@/components/ui/sheet"
+    SheetTrigger
+} from "@/components/ui/sheet"
 // import DragHandleHorizontalIcon from   
 import { Button } from "@/components/ui/button"
 import { Menu, Search } from 'lucide-react'
 // import { Avatar } from '@radix-ui/react-avatar'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Sidebar from './sidebar'
+import Sidebar from './Sidebar'
 
 const Navbar = () => {
     return (
@@ -64,7 +62,7 @@ const Navbar = () => {
         <div>
         <Avatar>
             <AvatarFallback>
-                C
+                X
             </AvatarFallback>
         </Avatar>
         </div>
