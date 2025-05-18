@@ -3,8 +3,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
 // Firebase配置
-const firebaseConfig = {
-  apiKey: "AIzaSyCgAJuZ2A6LZDNMQtZUg60Ni4SgFJXixbM",
+const firebaseConfig = 
   authDomain: "cryptotrading-b288a.firebaseapp.com",
   projectId: "cryptotrading-b288a", 
   storageBucket: "cryptotrading-b288a.appspot.com",
