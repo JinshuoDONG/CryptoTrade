@@ -1,37 +1,31 @@
-#  CryptoTrackr
+# CryptoTrackr
 
-**CryptoTrackr** is a comprehensive cryptocurrency trading and portfolio management web application. It combines a powerful frontend and backend architecture with real-time market data APIs and secure payment integrations to deliver a seamless and feature-rich experience for crypto investors.
-
----
-
-##  What We Have Done
-
-- Initialized frontend (React + Tailwind CSS + Redux) and backend (Spring Boot + MySQL)
-- Connected backend to MySQL database and tested basic CRUD operations
-- Integrated frontend with backend APIs using Axios
-- Built the core layout of the main page (dashboard)
+**CryptoTrackr** is a comprehensive cryptocurrency trading and portfolio management web application. It combines a powerful frontend and backend architecture with real-time market data API to deliver a seamless and feature-rich experience for crypto investors.
 
 ---
 
-##  What We Still Plan to Do
+## Tech Stack
 
-- **Authentication and Security**  
-  - Implement login, register, password recovery, and optional 2FA  
-  - Spring Security integration with role-based access
+- **Frontend:** [Vite](https://vitejs.dev/) + [React](https://react.dev/)
+- **UI Components:** [shadcn/ui](https://ui.shadcn.com/) (built on [Radix UI](https://www.radix-ui.com/))
+- **Additional Components:** [@radix-ui/react-avatar](https://www.radix-ui.com/docs/primitives/components/avatar)
+- **Icons:** [lucide-react](https://lucide.dev/), [@radix-ui/react-icons](https://www.npmjs.com/package/@radix-ui/react-icons)
+- **Backend Services:** [Firebase](https://firebase.google.com/)
+- **Crypto Data API:** [CoinGecko](https://www.coingecko.com/en/api)
 
-- **AI Chatbot Integration**  
-  - Use Gemini and CoinGecko APIs to answer crypto-related queries  
-  - Provide live price insights and basic trading suggestions
+## Live Demo
 
-- **Buy/Sell Crypto**  
-  - Build trading form with live market data  
-  - Support multiple coin pairs  
-  - Integrate Razorpay/Stripe for payment
+Deployed at:
+[https://cryptotrading-b288a.web.app/]
 
-- **Wallet System**  
-  - Add balance via payment gateways  
-  - Wallet-to-wallet transfers  
-  - Simulated bank withdrawals
+## Features
 
+- Real-time cryptocurrency prices and metadata
+- Responsive UI built with reusable components
+- Firebase integration for hosting and data storage
+- Clean and modern design using shadcn/ui
+- Iconography powered by lucide-react
 
+## Start locally
 
+`npm run dev`
