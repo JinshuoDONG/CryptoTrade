@@ -1,12 +1,31 @@
-# React + Vite
+# CryptoTrackr
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**CryptoTrackr** is a comprehensive cryptocurrency trading and portfolio management web application. It combines a powerful frontend and backend architecture with real-time market data API to deliver a seamless and feature-rich experience for crypto investors.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend:** [Vite](https://vitejs.dev/) + [React](https://react.dev/)
+- **UI Components:** [shadcn/ui](https://ui.shadcn.com/) (built on [Radix UI](https://www.radix-ui.com/))
+- **Additional Components:** [@radix-ui/react-avatar](https://www.radix-ui.com/docs/primitives/components/avatar)
+- **Icons:** [lucide-react](https://lucide.dev/), [@radix-ui/react-icons](https://www.npmjs.com/package/@radix-ui/react-icons)
+- **Backend Services:** [Firebase](https://firebase.google.com/)
+- **Crypto Data API:** [CoinGecko](https://www.coingecko.com/en/api)
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Live Demo
+
+Deployed at:
+[https://cryptotrading-b288a.web.app/]
+
+## Features
+
+- Real-time cryptocurrency prices and metadata
+- Responsive UI built with reusable components
+- Firebase integration for hosting and data storage
+- Clean and modern design using shadcn/ui
+- Iconography powered by lucide-react
+
+## Start locally
+
+`npm run dev`
