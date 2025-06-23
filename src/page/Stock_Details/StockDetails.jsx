@@ -1,21 +1,13 @@
+import LoginAlert from "@/components/LoginAlert"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog"
+import { getCoinDetails } from "@/lib/api"
+import { useAuth } from "@/lib/AuthContext"
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import { BookmarkFilledIcon } from "@radix-ui/react-icons"
 import { BookmarkIcon, DotIcon } from "lucide-react"
-import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import StockChart from "../Home/StockChart"
-import TreadingForm from "./TreadingForm"
-import { getCoinDetails } from "@/lib/api"
-import { useAuth } from "@/lib/AuthContext"
-import LoginAlert from "@/components/LoginAlert"
 
 const StockDetails = () => {
   const { id } = useParams() // 获取URL中的币种ID
@@ -179,7 +171,7 @@ const StockDetails = () => {
               <BookmarkIcon className="h-6 w-6"/>
             )}
           </Button>
-          <Dialog>
+          {/* <Dialog>
             <DialogTrigger>
               <Button size="lg">Trade</Button>
             </DialogTrigger>
@@ -189,7 +181,7 @@ const StockDetails = () => {
               </DialogHeader>
               <TreadingForm coinData={coinData} />
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
         </div>
       </div>
       <div className="mt-14">

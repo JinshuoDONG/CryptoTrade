@@ -1,15 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { SheetClose } from '@/components/ui/sheet';
 import {
-  ActivitySquare,
   Bookmark,
-  CreditCard,
   Home,
-  Landmark,
-  LayoutDashboard,
   LogOut,
-  User,
-  Wallet
+  User
 } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
   
@@ -35,16 +30,16 @@ import { useNavigate } from 'react-router-dom';
     //   path: "/activity",
     //   icon: <ActivitySquare className="h-6 w-6" />
     // },
-    {
-      name: "Wallet",
-      path: "/wallet",
-      icon: <Wallet className="h-6 w-6" />
-    },
-    {
-      name: "Payment Details",
-      path: "/payment-details",
-      icon: <Landmark className="h-6 w-6" />
-    },
+    // {
+    //   name: "Wallet",
+    //   path: "/wallet",
+    //   icon: <Wallet className="h-6 w-6" />
+    // },
+    // {
+    //   name: "Payment Details",
+    //   path: "/payment-details",
+    //   icon: <Landmark className="h-6 w-6" />
+    // },
     // {
     //   name: "Withdrawal",
     //   path: "/withdrawal",
