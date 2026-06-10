@@ -132,18 +132,7 @@ Run through these steps to verify every feature works end-to-end.
 
 ---
 
-## Test 10: Chatbot
-
-- [ ] On Home page, click **Chat Bot** button (bottom-right)
-- [ ] Type "hi" → bot responds with greeting
-- [ ] Type "what's the price of bitcoin" → shows BTC price
-- [ ] Type "top gainers" → shows top 5 gainers
-- [ ] Type "market overview" → shows market summary
-- [ ] Close chatbot via X button
-
----
-
-## Test 11: Data Isolation
+## Test 10: Data Isolation
 
 - [ ] Account A and Account B have **separate**:
   - Watchlists
@@ -156,7 +145,7 @@ Run through these steps to verify every feature works end-to-end.
 
 ---
 
-## Test 12: Error Handling
+## Test 11: Error Handling
 
 - [ ] Navigate to `/market/nonexistent` → shows error message (no crash)
 - [ ] Navigate to `/some-random-path` → shows 404 page
@@ -166,7 +155,7 @@ Run through these steps to verify every feature works end-to-end.
 
 ---
 
-## Test 13: Sidebar Navigation
+## Test 12: Sidebar Navigation
 
 - [ ] Click hamburger menu → sidebar opens
 - [ ] Click each item in sidebar → navigates to correct page
@@ -187,7 +176,6 @@ Run through these steps to verify every feature works end-to-end.
 | 7. Portfolio & Activity | ⬜ | |
 | 8. Profile | ⬜ | |
 | 9. Payment Details | ⬜ | |
-| 10. Chatbot | ⬜ | |
-| 11. Data Isolation | ⬜ | |
-| 12. Error Handling | ⬜ | |
-| 13. Sidebar | ⬜ | |
+| 10. Data Isolation | ⬜ | |
+| 11. Error Handling | ⬜ | |
+| 12. Sidebar | ⬜ | |

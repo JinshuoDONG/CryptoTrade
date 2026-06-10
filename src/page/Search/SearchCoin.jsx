@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { Avatar } from '@radix-ui/react-avatar'
+import CoinImage from "@/components/ui/coin-image"
 import { Search } from 'lucide-react'
 import { searchCoins } from '@/lib/api'
 
@@ -112,7 +113,7 @@ const SearchCoin = () => {
                   className="p-4 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-md flex items-center cursor-pointer"
                 >
                   <Avatar className="w-10 h-10 mr-4">
-                    <AvatarImage src={coin.image} alt={coin.name} />
+                    <CoinImage symbol={coin.symbol} src={coin.image} alt={coin.name} />
                   </Avatar>
                   <div className="flex-1">
                     <div className="flex justify-between">

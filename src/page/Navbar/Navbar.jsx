@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import Sidebar from './Sidebar'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/lib/AuthContext'
+import CoinImage from "@/components/ui/coin-image"
 import { searchCoins } from '@/lib/api'
 import { useState, useEffect, useRef } from 'react'
 
@@ -134,7 +135,7 @@ const Navbar = () => {
                                         tabIndex={0}
                                         onKeyDown={(e) => e.key === 'Enter' && handleCoinClick(coin)}
                                     >
-                                        <img src={coin.image} alt="" className="w-6 h-6 rounded-full" />
+                                        <CoinImage symbol={coin.symbol} src={coin.image} className="w-6 h-6" alt="" />
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium truncate">{coin.name}</p>
                                             <p className="text-xs text-gray-400">{coin.symbol.toUpperCase()}</p>

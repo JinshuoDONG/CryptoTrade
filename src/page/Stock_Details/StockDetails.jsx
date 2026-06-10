@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { getCoinDetails } from "@/lib/api"
 import { useAuth } from "@/lib/AuthContext"
-import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
+import CoinImage from "@/components/ui/coin-image"
 import { BookmarkFilledIcon } from "@radix-ui/react-icons"
 import { BookmarkIcon, DotIcon } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -141,10 +141,7 @@ const StockDetails = () => {
         <div className="flex gap-5 items-center">
           <div className="w-[60px] md:w-[100px]">
             <Avatar className="h-12 w-12 md:h-20 md:w-20">
-              <AvatarImage
-                src={coinData.image?.large || "https://placehold.co/200"}
-                alt={coinData.name || "Cryptocurrency"}
-              />
+              <CoinImage symbol={coinData.symbol} src={coinData.image?.large} alt={coinData.name} />
             </Avatar>
           </div>
           <div>

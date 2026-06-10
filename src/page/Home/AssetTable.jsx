@@ -6,7 +6,8 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { Avatar } from '@radix-ui/react-avatar'
+import CoinImage from "@/components/ui/coin-image"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { getCoinMarkets, getTopGainers, getTopLosers } from "@/lib/api"
@@ -193,7 +194,7 @@ break
                     title="View details & trade"
                   >
                     <Avatar className='w-8 h-8'>
-                      <AvatarImage src={coin.image} alt={coin.name} />
+                      <CoinImage symbol={coin.symbol} src={coin.image} alt={coin.name} />
                     </Avatar>
                     <span className="group-hover:text-gray-900">{coin.name}</span>
                     <span className="opacity-0 group-hover:opacity-100 text-gray-400 transition-opacity">→</span>

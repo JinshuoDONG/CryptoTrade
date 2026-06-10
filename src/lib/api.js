@@ -65,7 +65,12 @@ function coinName(symbol) {
   return COIN_NAMES[symbol] || symbol.toUpperCase();
 }
 
-function iconUrl(symbol) {
+function coinImageUrl(symbol) {
+  const s = (symbol || 'btc').toLowerCase();
+  return `https://assets.coincap.io/assets/icons/${s}@2x.png`;
+}
+
+function coinFallbackSvg(symbol) {
   const s = symbol || '?';
   let hash = 0;
   for (let i = 0; i < s.length; i++) {
@@ -79,6 +84,8 @@ function iconUrl(symbol) {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
+export { coinImageUrl, coinFallbackSvg };
+
 function toMarketFormat(ticker) {
   const symbol = baseSymbol(ticker);
   const price = parseFloat(ticker.lastPrice);
@@ -87,7 +94,8 @@ function toMarketFormat(ticker) {
     id: symbol,
     symbol: symbol,
     name: coinName(symbol),
-    image: iconUrl(symbol),
+    image: coinImageUrl(symbol),
+    fallbackImage: coinFallbackSvg(symbol),
     current_price: price,
     market_cap: 0,
     market_cap_rank: 0,
@@ -105,7 +113,8 @@ function toDetailFormat(ticker) {
     id: symbol,
     symbol: symbol,
     name: coinName(symbol),
-    image: { large: iconUrl(symbol) },
+    image: { large: coinImageUrl(symbol) },
+    fallbackImage: coinFallbackSvg(symbol),
     market_data: {
       current_price: { usd: price },
       price_change_24h: parseFloat(ticker.priceChange),

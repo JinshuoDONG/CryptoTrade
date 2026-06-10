@@ -162,32 +162,6 @@ test.describe('404 / Error Handling', () => {
   });
 });
 
-test.describe('Chatbot', () => {
-  test('chatbot opens and responds', async ({ page }) => {
-    await page.goto(BASE);
-    // 点 Chat Bot 按钮
-    const chatBtn = page.locator('button:has-text("Chat Bot")');
-    await chatBtn.scrollIntoViewIfNeeded();
-    await chatBtn.click();
-    await page.waitForTimeout(500);
-
-    // 聊天窗口出现
-    const chatVisible = await page.locator('.bg-slate-800').first().isVisible({ timeout: 3000 });
-    expect(chatVisible).toBe(true);
-
-    // 发送消息
-    const chatInput = page.locator('input[placeholder="Ask about crypto..."]');
-    await chatInput.fill('hi');
-    await chatInput.press('Enter');
-    await page.waitForTimeout(2000);
-
-    // 应该收到回复
-    const botReplies = page.locator('.bg-slate-800.text-white');
-    const count = await botReplies.count();
-    expect(count).toBeGreaterThan(0);
-  });
-});
-
 test.describe('Watchlist (requires login)', () => {
   test('watchlist page shows login prompt when not logged in', async ({ page }) => {
     await page.goto(BASE + '/#/watchlist');

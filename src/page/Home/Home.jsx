@@ -1,21 +1,15 @@
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
-import { Cross1Icon } from "@radix-ui/react-icons"
-import { Dot, MessageCircle } from "lucide-react"
+import CoinImage from "@/components/ui/coin-image"
+import { Dot } from "lucide-react"
 import React, { useEffect, useState } from 'react'
 import AssetTable from './AssetTable'
 import StockChart from './StockChart'
-import { getChatbotResponse } from "@/lib/chatService"
 import { useNavigate } from "react-router-dom"
 
 const Home = () => {
     const [category, setCategory] = React.useState("top50");
-    const [inputValue, setInputValue] = React.useState("");
-    const [isBotRelease, setIsBotRelease] = React.useState(false);
     const navigate = useNavigate();
     const [selectedCoin, setSelectedCoin] = useState(null);
-    const [chatMessages, setChatMessages] = useState([]);
-    const [chatLoading, setChatLoading] = useState(false);
 
     useEffect(() => {
       // 监听用户点击的币种
@@ -32,8 +26,6 @@ const Home = () => {
       };
     }, []);
 
-    const handleBotRelease = () => setIsBotRelease(!isBotRelease);
-
     const handleCategory = (value) => {
         setCategory(value)
         // Dispatch an event to notify the AssetTable component
@@ -42,10 +34,6 @@ const Home = () => {
         });
         window.dispatchEvent(event);
     };
-
-    const handleChange = (e) => {
-      setInputValue(e.target.value);
-    }
 
     // 价格格式化
     const formatPrice = (price) => {
@@ -96,12 +84,7 @@ const Home = () => {
                 <StockChart coinId={selectedCoin.id}/>
                 <div className="flex gap-5 items-center mt-4">
                   <div>
-                    <Avatar className="w-12 h-12">
-                      <AvatarImage
-                        src={selectedCoin.image}
-                        alt={selectedCoin.name}
-                      />
-                    </Avatar>
+                    <CoinImage symbol={selectedCoin.symbol} src={selectedCoin.image} className="w-12 h-12" alt={selectedCoin.name} />
                   </div>
                   <div className="flex-1">
                     <div className='flex items-center gap-2'>
@@ -131,79 +114,6 @@ const Home = () => {
             )}
           </div>
         </div>
-        <section className="absolute bottom-5 right-5 z-40 flex-col
-        justify-end items-end gap-2">
-
-
-{isBotRelease && <div className="rounded-md w-[20rem] md:w-[25rem] lg:w-[25rem] h-[70vh] bg-slate-900 flex flex-col">
-  <div className="flex justify-between items-center border-b px-6 h-[12%]">
-    <p className="text-white font-semibold">Chat Bot</p>
-    <Button onClick={handleBotRelease} variant="ghost" size="icon">
-      <Cross1Icon className="text-white" />
-    </Button>
-  </div>
-
-  <div className="flex-1 flex flex-col overflow-y-auto gap-3 px-5 py-2 scroll-container">
-    {chatMessages.length === 0 && (
-      <div className="self-start pb-5 w-auto">
-        <div className="px-5 py-2 rounded-md bg-slate-800 w-auto text-white">
-          <p>Hi~ o(*￣▽￣*)ブ</p>
-          <p>I'm your crypto assistant. Ask me about prices, top gainers, or market overview!</p>
-        </div>
-      </div>
-    )}
-    {chatMessages.map((msg, i) => (
-      <div key={i} className={`${msg.sender === 'bot' ? 'self-start' : 'self-end'} pb-1 w-auto max-w-[85%]`}>
-        <div className={`px-4 py-2 rounded-md whitespace-pre-wrap text-sm ${msg.sender === 'bot' ? 'bg-slate-800 text-white' : 'bg-blue-600 text-white'}`}>
-          {msg.text}
-        </div>
-      </div>
-    ))}
-    {chatLoading && (
-      <div className="self-start pb-1">
-        <div className="px-4 py-2 rounded-md bg-slate-800 text-white text-sm">Thinking...</div>
-      </div>
-    )}
-  </div>
-
-  <div className="border-t p-3 flex gap-2">
-    <input
-      className="flex-1 bg-slate-800 text-white rounded-md px-3 py-2 text-sm outline-none"
-      placeholder="Ask about crypto..."
-      onChange={handleChange}
-      value={inputValue}
-      onKeyDown={async (e) => {
-        if (e.key === 'Enter' && inputValue.trim() && !chatLoading) {
-          const msg = inputValue.trim();
-          setInputValue('');
-          setChatMessages(prev => [...prev, { sender: 'user', text: msg }]);
-          setChatLoading(true);
-          try {
-            const reply = await getChatbotResponse(msg);
-            setChatMessages(prev => [...prev, { sender: 'bot', text: reply }]);
-          } catch {
-            setChatMessages(prev => [...prev, { sender: 'bot', text: 'Sorry, something went wrong.' }]);
-          } finally {
-            setChatLoading(false);
-          }
-        }
-      }}
-    />
-  </div>
-</div>}
-
-          <div className='relative w-[10rem] cursor-pointer group'>
-          <Button
-          onClick={handleBotRelease}
-          className="w-full h-[3rem] gap-2 items-center">
-            <MessageCircle
-            size={30}
-              className="fill-[#1e293b] -rotate-90 stroke-none group-hover:fill-[#1a1a1a]"
-            />
-            <span className="text-2xl">Chat Bot</span>
-          </Button>
-          </div>
-        </section>
       </div>
     )
 }

@@ -6,11 +6,11 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import CoinImage from "@/components/ui/coin-image"
 import { useEffect, useState } from 'react'
 import { auth } from '@/FirebaseConfig'
 import { getPortfolio } from '../Wallet/walletService'
-import { getCoinMarkets } from '@/lib/api'
+import { getCoinMarkets, coinImageUrl } from '@/lib/api'
 
 const COIN_NAMES = {
   btc: 'Bitcoin', eth: 'Ethereum', bnb: 'BNB', sol: 'Solana',
@@ -18,17 +18,6 @@ const COIN_NAMES = {
   dot: 'Polkadot', matic: 'Polygon', link: 'Chainlink', ltc: 'Litecoin',
   pepe: 'Pepe', sui: 'Sui', near: 'NEAR Protocol', inj: 'Injective',
 };
-
-function makeIcon(symbol) {
-  const s = symbol || '?';
-  let hash = 0;
-  for (let i = 0; i < s.length; i++) hash = s.charCodeAt(i) + ((hash << 5) - hash);
-  const hue = Math.abs(hash) % 360;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-    <circle cx="16" cy="16" r="16" fill="hsl(${hue},55%,45%)"/>
-    <text x="16" y="21" text-anchor="middle" fill="#fff" font-size="16" font-family="Arial,sans-serif" font-weight="bold">${s.charAt(0).toUpperCase()}</text></svg>`;
-  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
-}
 
 const Portfolio = () => {
   const [holdings, setHoldings] = useState([])
@@ -68,7 +57,7 @@ const Portfolio = () => {
             currentPrice: price,
             value,
             pnl,
-            image: makeIcon(sym),
+            image: coinImageUrl(sym),
           }
         })
         setHoldings(items)
@@ -109,7 +98,7 @@ const Portfolio = () => {
               <TableRow key={item.symbol}>
                 <TableCell className="font-medium flex items-center gap-2">
                   <Avatar className="w-8 h-8">
-                    <AvatarImage src={item.image} />
+                    <CoinImage symbol={item.symbol} src={item.image} />
                   </Avatar>
                   <span>{item.name}</span>
                 </TableCell>

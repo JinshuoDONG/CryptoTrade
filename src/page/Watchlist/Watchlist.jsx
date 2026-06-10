@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
+import CoinImage from "@/components/ui/coin-image"
 import { BookmarkFilledIcon } from "@radix-ui/react-icons";
 import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -106,7 +106,7 @@ const Watchlist = () => {
               <TableRow key={coin.id}>
                 <TableCell className="font-medium flex items-center gap-2">
                   <Avatar>
-                    <AvatarImage src={coin.image} alt={coin.name} />
+                    <CoinImage symbol={coin.symbol} src={coin.image} alt={coin.name} />
                   </Avatar>
                   <span>{coin.name}</span>
                 </TableCell>
