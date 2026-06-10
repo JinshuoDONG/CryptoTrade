@@ -121,7 +121,7 @@ const SearchCoin = () => {
                     </div>
                     <div className="flex justify-between text-sm mt-1">
                       <span className="text-gray-500">{coin.symbol.toUpperCase()}</span>
-                      <span className={coin.price_change_percentage_24h > 0 ? "text-red-500" : "text-green-500"}>
+                      <span className={coin.price_change_percentage_24h >= 0 ? "text-green-500" : "text-red-500"}>
                         {formatPercentage(coin.price_change_percentage_24h)}
                       </span>
                     </div>

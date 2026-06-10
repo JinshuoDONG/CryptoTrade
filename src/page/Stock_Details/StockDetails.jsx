@@ -1,21 +1,15 @@
+import LoginAlert from "@/components/LoginAlert"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { getCoinDetails } from "@/lib/api"
+import { useAuth } from "@/lib/AuthContext"
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import { BookmarkFilledIcon } from "@radix-ui/react-icons"
 import { BookmarkIcon, DotIcon } from "lucide-react"
-import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import StockChart from "../Home/StockChart"
-import TreadingForm from "./TreadingForm"
-import { getCoinDetails } from "@/lib/api"
-import { useAuth } from "@/lib/AuthContext"
-import LoginAlert from "@/components/LoginAlert"
+import TradeForm from "./TradeForm"
 
 const StockDetails = () => {
   const { id } = useParams() // 获取URL中的币种ID
@@ -23,7 +17,6 @@ const StockDetails = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showLoginAlert, setShowLoginAlert] = useState(false)
-  const navigate = useNavigate()
   const { isLoggedIn, isBookmarked, addBookmark, removeBookmark } = useAuth()
 
   // 切换收藏状态
@@ -164,7 +157,7 @@ const StockDetails = () => {
               <p className="text-xl font-bold">
                 {formatPrice(currentPrice)}
               </p>       
-              <p className={isPriceUp ? "text-red-600" : "text-green-600"}>
+              <p className={isPriceUp ? "text-green-600" : "text-red-600"}>
                 <span>{priceChange.toFixed(2)}</span>
                 <span> ({formatPriceChange(priceChangePercentage)})</span>
               </p>
@@ -185,9 +178,13 @@ const StockDetails = () => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>How much do you want to spend?</DialogTitle>
+                <DialogTitle>Trade {coinData.symbol?.toUpperCase()}</DialogTitle>
               </DialogHeader>
-              <TreadingForm coinData={coinData} />
+              <TradeForm
+                coinData={coinData}
+                onSuccess={() => console.log('Trade completed')}
+                onError={(msg) => console.error(msg)}
+              />
             </DialogContent>
           </Dialog>
         </div>

@@ -105,7 +105,7 @@ const Watchlist = () => {
             watchlistData.map((coin) => (
               <TableRow key={coin.id}>
                 <TableCell className="font-medium flex items-center gap-2">
-                  <Avatar className='-z-50'>
+                  <Avatar>
                     <AvatarImage src={coin.image} alt={coin.name} />
                   </Avatar>
                   <span>{coin.name}</span>
@@ -113,7 +113,7 @@ const Watchlist = () => {
                 <TableCell>{coin.symbol}</TableCell>
                 <TableCell>{formatNumber(coin.total_volume)}</TableCell>
                 <TableCell>{formatNumber(coin.market_cap)}</TableCell>
-                <TableCell className={coin.price_change_percentage_24h > 0 ? "text-red-500" : "text-green-500"}>
+                <TableCell className={coin.price_change_percentage_24h >= 0 ? "text-green-500" : "text-red-500"}>
                   {formatPercentage(coin.price_change_percentage_24h)}
                 </TableCell>
                 <TableCell>{formatPrice(coin.current_price)}</TableCell>

@@ -7,40 +7,125 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { useEffect, useState } from 'react'
+import { auth } from '@/FirebaseConfig'
+import { getPortfolio } from '../Wallet/walletService'
+import { getCoinMarkets } from '@/lib/api'
+
+const COIN_NAMES = {
+  btc: 'Bitcoin', eth: 'Ethereum', bnb: 'BNB', sol: 'Solana',
+  xrp: 'XRP', ada: 'Cardano', doge: 'Dogecoin', avax: 'Avalanche',
+  dot: 'Polkadot', matic: 'Polygon', link: 'Chainlink', ltc: 'Litecoin',
+  pepe: 'Pepe', sui: 'Sui', near: 'NEAR Protocol', inj: 'Injective',
+};
+
+function makeIcon(symbol) {
+  const s = symbol || '?';
+  let hash = 0;
+  for (let i = 0; i < s.length; i++) hash = s.charCodeAt(i) + ((hash << 5) - hash);
+  const hue = Math.abs(hash) % 360;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="hsl(${hue},55%,45%)"/>
+    <text x="16" y="21" text-anchor="middle" fill="#fff" font-size="16" font-family="Arial,sans-serif" font-weight="bold">${s.charAt(0).toUpperCase()}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
 
 const Portfolio = () => {
-  return (
-    <div className="p-5 lg:p-20">   
-    <h1 className="font-bold text-3xl pb-5">Portfolio</h1>     
-    <Table>  
-    <TableHeader>
-        <TableRow>
-        <TableHead className="w-[100px]">Asset</TableHead>
-        <TableHead>Price</TableHead>
-        <TableHead>Unit</TableHead>
-        <TableHead>Change</TableHead>
-        <TableHead className="text-right">Change%</TableHead>
-         <TableHead>VOLUME</TableHead>
-         </TableRow>
-    </TableHeader>
-    <TableBody>
-        {[1,1,1,1,1,1,1,1,1,1,1,1].map((item,index)=> <TableRow key={index}>
-            <TableCell className="font-medium flex items-center gap-2">
-            <Avatar className='-z-50'>
-            <AvatarImage src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400" />
-            </Avatar>
-            <span>Bitcoin</span>
-            </TableCell>
-            <TableCell>BTC</TableCell>
-            <TableCell>9124463121</TableCell>
-            <TableCell>1364881428323</TableCell>
-            <TableCell>-0.20009</TableCell>
-            <TableCell className="text-right">$69249</TableCell>
-        </TableRow>)}
+  const [holdings, setHoldings] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
 
-    </TableBody>
-    </Table>
-</div>
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(u => {
+      setUser(u)
+      if (!u) setLoading(false)
+    })
+    return () => unsubscribe()
+  }, [])
+
+  useEffect(() => {
+    if (!user) return
+    const fetchData = async () => {
+      try {
+        const portfolio = await getPortfolio(user.uid)
+        const symbols = Object.keys(portfolio)
+        if (symbols.length === 0) { setHoldings([]); setLoading(false); return }
+
+        const markets = await getCoinMarkets('usd', 500)
+        const priceMap = {}
+        markets.forEach(c => { priceMap[c.id] = c.current_price })
+
+        const items = symbols.map(sym => {
+          const h = portfolio[sym]
+          const price = priceMap[sym] || 0
+          const value = h.amount * price
+          const pnl = price > 0 ? ((price - h.avgPrice) / h.avgPrice * 100) : 0
+          return {
+            symbol: sym,
+            name: COIN_NAMES[sym] || sym.toUpperCase(),
+            amount: h.amount,
+            avgPrice: h.avgPrice,
+            currentPrice: price,
+            value,
+            pnl,
+            image: makeIcon(sym),
+          }
+        })
+        setHoldings(items)
+      } catch (e) {
+        console.error('Portfolio load error:', e)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [user])
+
+  if (!user) return <div className="p-20 text-center text-gray-500">Please log in to view your portfolio</div>
+  if (loading) return <div className="p-20 text-center">Loading portfolio...</div>
+
+  return (
+    <div className="p-5 lg:p-20">
+      <h1 className="font-bold text-3xl pb-5">Portfolio</h1>
+      {holdings.length === 0 ? (
+        <div className="text-center p-10 border rounded-md bg-gray-50">
+          <p className="text-lg mb-2">No holdings yet</p>
+          <p className="text-gray-500">Go to a coin's detail page and start trading!</p>
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[150px]">Asset</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Avg Price</TableHead>
+              <TableHead>Current Price</TableHead>
+              <TableHead>P&L</TableHead>
+              <TableHead className="text-right">Value</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {holdings.map((item, i) => (
+              <TableRow key={item.symbol}>
+                <TableCell className="font-medium flex items-center gap-2">
+                  <Avatar className="w-8 h-8">
+                    <AvatarImage src={item.image} />
+                  </Avatar>
+                  <span>{item.name}</span>
+                </TableCell>
+                <TableCell>{item.amount.toFixed(6)}</TableCell>
+                <TableCell>${item.avgPrice.toFixed(2)}</TableCell>
+                <TableCell>${item.currentPrice.toFixed(2)}</TableCell>
+                <TableCell className={item.pnl >= 0 ? 'text-green-500' : 'text-red-500'}>
+                  {item.pnl >= 0 ? '+' : ''}{item.pnl.toFixed(2)}%
+                </TableCell>
+                <TableCell className="text-right font-medium">${item.value.toFixed(2)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+    </div>
   )
 }
 

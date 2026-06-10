@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 用户集合：只允许用户访问自己的数据
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 钱包集合：认证用户可读写（转账需要跨用户写）
+    match /wallets/{userId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // 交易记录集合：允许用户读取和创建自己的交易记录
+    match /transactions/{transactionId} {
+      allow read, create: if request.auth != null &&
+        (resource.data.userId == request.auth.uid || request.resource.data.userId == request.auth.uid);
+      allow update, delete: if false;
+    }
+
+    // 其他集合：允许认证用户读写
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

@@ -28,3 +28,12 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Firebase cache
+.firebase/
+
+# Claude AI local settings
+.claude/
+
+# Test outputs
+test-results/

@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "deploy:firebase": "npm run build && node node_modules/firebase-tools/lib/bin/firebase.js deploy --only hosting"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@playwright/test": "^1.60.0",
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
@@ -49,9 +51,11 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "firebase-tools": "^15.19.1",
     "gh-pages": "^6.3.0",
     "globals": "^15.15.0",
     "install": "^0.13.0",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vitest": "^4.1.8"
   }
 }

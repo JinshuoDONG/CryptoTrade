@@ -48,32 +48,17 @@ const StockChart = ({ coinId = "bitcoin" }) => {
     const fetchChartData = async () => {
       setLoading(true)
       try {
-        // 根据用户选择的时间段获取对应天数的数据
         const days = timeSeries.find(item => item.label === activeLabel)?.value || 1
         const data = await getCoinMarketChart(currentCoinId, 'usd', days)
-        
+
         if (data && data.prices && data.prices.length > 0) {
-          setChartData([{
-            data: data.prices
-          }])
+          setChartData([{ name: 'Price (USD)', data: data.prices }])
+        } else {
+          setChartData([])
         }
       } catch (error) {
         console.error('Error fetching chart data:', error)
-        // 如果获取数据出错，尝试回退到比特币数据
-        if (currentCoinId !== 'bitcoin') {
-          console.log('Falling back to bitcoin chart data')
-          try {
-            const days = timeSeries.find(item => item.label === activeLabel)?.value || 1
-            const fallbackData = await getCoinMarketChart('bitcoin', 'usd', days)
-            if (fallbackData && fallbackData.prices && fallbackData.prices.length > 0) {
-              setChartData([{
-                data: fallbackData.prices
-              }])
-            }
-          } catch (fallbackError) {
-            console.error('Error fetching fallback chart data:', fallbackError)
-          }
-        }
+        setChartData([])
       } finally {
         setLoading(false)
       }
@@ -192,6 +177,10 @@ const StockChart = ({ coinId = "bitcoin" }) => {
         {loading ? (
           <div className="flex justify-center items-center h-[450px]">
             <p>Loading chart data...</p>
+          </div>
+        ) : chartData.length === 0 ? (
+          <div className="flex justify-center items-center h-[450px] text-gray-400">
+            <p>Chart data temporarily unavailable</p>
           </div>
         ) : (
           <ReactApexChart

@@ -16,9 +16,8 @@ const AssetTable = () => {
   const navigate = useNavigate()
   const [coins, setCoins] = useState([])
   const [loading, setLoading] = useState(false)
-  const [category, setCategory] = useState("all")
+  const [category, setCategory] = useState("top50")
   const [sortDirection, setSortDirection] = useState('desc') // Default to descending order (highest to lowest)
-  const [sortBy, setSortBy] = useState('price_change') // 'price_change' or 'volume'
 
   // Helper function to sort coins
   const sortCoins = (coinsData, sortField, direction) => {
@@ -51,28 +50,30 @@ const AssetTable = () => {
         switch(category) {
           case "all":
             data = await getCoinMarkets()
-            setSortBy('price_change')
-            break
+break
           case "top50":
             data = await getCoinMarkets("usd", 50)
-            setSortBy('volume')
             break
           case "topGainers":
             data = await getTopGainers()
-            setSortBy('price_change')
-            break
+break
           case "topLosers":
             data = await getTopLosers()
-            setSortBy('price_change')
-            break
+break
           default:
             data = await getCoinMarkets()
-            setSortBy('price_change')
+            break
         }
         
         // Sort data based on category and selected sort field
         const sortedData = sortCoins(data, category === 'top50' ? 'volume' : 'price_change', sortDirection)
         setCoins(sortedData)
+        // 首次加载时通知 Home 选中第一个币种
+        if (sortedData.length > 0) {
+          window.dispatchEvent(new CustomEvent('coinSelected', {
+            detail: { coin: sortedData[0] }
+          }))
+        }
       } catch (error) {
         console.error("Error fetching coin data:", error)
       } finally {
@@ -127,16 +128,12 @@ const AssetTable = () => {
     return `${percentage.toFixed(2)}%`
   }
 
-  // 处理点击硬币事件
+  // 单击：更新右侧面板
   const handleCoinClick = (coin) => {
-    // 发送事件通知Home组件更新右侧图表
     const event = new CustomEvent('coinSelected', {
       detail: { coin }
     });
     window.dispatchEvent(event);
-    
-    // 同时导航到详情页
-    navigate(`/market/${coin.id}`);
   };
 
   // Get sort arrow for column headers
@@ -187,25 +184,33 @@ const AssetTable = () => {
           ) : (
             coins.map((coin) => (
               <TableRow key={coin.id} className="hover:bg-gray-50 cursor-pointer">
-                <TableCell 
-                  onClick={() => handleCoinClick(coin)}
-                  className="font-medium flex items-center gap-2">
-                  <Avatar className='-z-50 w-8 h-8'>
-                    <AvatarImage src={coin.image} alt={coin.name} />
-                  </Avatar>
-                  <span>{coin.name}</span>
+                <TableCell
+                  className="font-medium"
+                >
+                  <div
+                    className="flex items-center gap-2 cursor-pointer group"
+                    onClick={() => navigate(`/market/${coin.id}`)}
+                    title="View details & trade"
+                  >
+                    <Avatar className='w-8 h-8'>
+                      <AvatarImage src={coin.image} alt={coin.name} />
+                    </Avatar>
+                    <span className="group-hover:text-gray-900">{coin.name}</span>
+                    <span className="opacity-0 group-hover:opacity-100 text-gray-400 transition-opacity">→</span>
+                  </div>
                 </TableCell>
                 <TableCell className="font-medium">{coin.symbol?.toUpperCase()}</TableCell>
-                <TableCell>{formatNumber(coin.total_volume)}</TableCell>
-                <TableCell>{formatNumber(coin.market_cap)}</TableCell>
-                <TableCell 
-                  className={`font-medium ${coin.price_change_percentage_24h > 0 
-                    ? "text-red-500" 
-                    : "text-green-500"}`}
+                <TableCell onClick={() => handleCoinClick(coin)}>{formatNumber(coin.total_volume)}</TableCell>
+                <TableCell onClick={() => handleCoinClick(coin)}>{formatNumber(coin.market_cap)}</TableCell>
+                <TableCell
+                  onClick={() => handleCoinClick(coin)}
+                  className={`font-medium ${coin.price_change_percentage_24h >= 0
+                    ? "text-green-500"
+                    : "text-red-500"}`}
                 >
                   {formatPercentage(coin.price_change_percentage_24h)}
                 </TableCell>
-                <TableCell className="text-right font-medium">
+                <TableCell onClick={() => handleCoinClick(coin)} className="text-right font-medium">
                   {formatPrice(coin.current_price)}
                 </TableCell>
               </TableRow>
