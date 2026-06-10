@@ -105,9 +105,7 @@ const Watchlist = () => {
             watchlistData.map((coin) => (
               <TableRow key={coin.id}>
                 <TableCell className="font-medium flex items-center gap-2">
-                  <Avatar>
-                    <CoinImage symbol={coin.symbol} src={coin.image} alt={coin.name} />
-                  </Avatar>
+                  <CoinImage symbol={coin.symbol} src={coin.image} alt={coin.name} />
                   <span>{coin.name}</span>
                 </TableCell>
                 <TableCell>{coin.symbol}</TableCell>

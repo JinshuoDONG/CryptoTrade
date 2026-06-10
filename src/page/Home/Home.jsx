@@ -84,7 +84,7 @@ const Home = () => {
                 <StockChart coinId={selectedCoin.id}/>
                 <div className="flex gap-5 items-center mt-4">
                   <div>
-                    <CoinImage symbol={selectedCoin.symbol} src={selectedCoin.image} className="w-12 h-12" alt={selectedCoin.name} />
+                    <CoinImage symbol={selectedCoin.symbol} src={selectedCoin.image} className="w-12 h-12 rounded-full" alt={selectedCoin.name} />
                   </div>
                   <div className="flex-1">
                     <div className='flex items-center gap-2'>

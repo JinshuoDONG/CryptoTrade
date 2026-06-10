@@ -140,9 +140,7 @@ const StockDetails = () => {
       <div className="flex justify-between flex-wrap md:flex-nowrap">
         <div className="flex gap-5 items-center">
           <div className="w-[60px] md:w-[100px]">
-            <Avatar className="h-12 w-12 md:h-20 md:w-20">
-              <CoinImage symbol={coinData.symbol} src={coinData.image?.large} alt={coinData.name} />
-            </Avatar>
+              <CoinImage symbol={coinData.symbol} src={coinData.image?.large} alt={coinData.name} className="h-12 w-12 md:h-20 md:w-20 rounded-full" />
           </div>
           <div>
             <div className="flex items-center gap-2">

@@ -135,7 +135,7 @@ const Navbar = () => {
                                         tabIndex={0}
                                         onKeyDown={(e) => e.key === 'Enter' && handleCoinClick(coin)}
                                     >
-                                        <CoinImage symbol={coin.symbol} src={coin.image} className="w-6 h-6" alt="" />
+                                        <CoinImage symbol={coin.symbol} src={coin.image} className="w-6 h-6 rounded-full" alt="" />
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium truncate">{coin.name}</p>
                                             <p className="text-xs text-gray-400">{coin.symbol.toUpperCase()}</p>

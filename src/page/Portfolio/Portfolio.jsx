@@ -97,9 +97,7 @@ const Portfolio = () => {
             {holdings.map((item, i) => (
               <TableRow key={item.symbol}>
                 <TableCell className="font-medium flex items-center gap-2">
-                  <Avatar className="w-8 h-8">
-                    <CoinImage symbol={item.symbol} src={item.image} />
-                  </Avatar>
+                  <CoinImage symbol={item.symbol} src={item.image} />
                   <span>{item.name}</span>
                 </TableCell>
                 <TableCell>{item.amount.toFixed(6)}</TableCell>

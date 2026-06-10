@@ -6,7 +6,6 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { Avatar } from '@radix-ui/react-avatar'
 import CoinImage from "@/components/ui/coin-image"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -193,9 +192,7 @@ break
                     onClick={() => navigate(`/market/${coin.id}`)}
                     title="View details & trade"
                   >
-                    <Avatar className='w-8 h-8'>
-                      <CoinImage symbol={coin.symbol} src={coin.image} alt={coin.name} />
-                    </Avatar>
+                    <CoinImage symbol={coin.symbol} src={coin.image} alt={coin.name} />
                     <span className="group-hover:text-gray-900">{coin.name}</span>
                     <span className="opacity-0 group-hover:opacity-100 text-gray-400 transition-opacity">→</span>
                   </div>
